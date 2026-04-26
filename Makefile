@@ -1,12 +1,20 @@
 
+ARCH := $(shell uname -m)
+
+ifeq ($(ARCH), x86_64)
+    START_SRC := _start0.s
+else ifeq ($(ARCH), aarch64)
+    START_SRC := _start1.s
+endif
+
 libasmlib.a: _start0.o tools.o
 	ar rcs libasmlib.a _start0.o tools.o
 
 tools.o: tools.c
 	clang -c tools.c -o tools.o -O
 
-_start0.o: _start0.s
-	clang -c _start0.s -o _start0.o -O
+_start0.o: $(START_SRC)
+	clang -c $(START_SRC) -o _start0.o -O
 
 install: libasmlib.a
 	cp libasmlib.a /usr/local/lib/

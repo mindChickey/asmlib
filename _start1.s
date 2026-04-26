@@ -1,8 +1,8 @@
 .text
-	.globl	_start1                         
+	.globl	_start0                         
 	.p2align	2               # ARM64 指令是 4 字节对齐
-	.type	_start1,@function
-_start1:
+	.type	_start0,@function
+_start0:
     .cfi_startproc
     # 在 ARM64 Linux 中：
     # sp 指向 argc
@@ -25,7 +25,7 @@ _start1:
     svc     #0                  # 执行系统调用
 
 .Lfunc_end0:
-	.size	_start1, .Lfunc_end0-_start1
+	.size	_start0, .Lfunc_end0-_start0
 	.cfi_endproc
 
 	.ident	"clang version 15.0.7"
