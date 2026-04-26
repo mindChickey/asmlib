@@ -9,14 +9,13 @@ _start0:
 // sp 指向 argc
 // sp + 8 指向 argv[0]
 
-    ldr     x0, [sp]            // 第一个参数: argc (64位加载到 x0)
-    add     x1, sp, #8          // 第二个参数: argv (将 sp+8 的地址给 x1)
-
-// 栈对齐: ARM64 硬件强制要求 SP 在访问内存时必须 16 字节对齐
-// 进入 _start 时通常已对齐，这里手动确保对齐（清空低 4 位）
-    mov     x2, sp
-    and     x2, x2, #~0xf
-    mov     sp, x2
+    ldr     x0, [sp]            // argc
+    add     x1, sp, #8          // argv
+    mov     x2, x1
+    mov     x3, x0
+    add     x3, x3, #1
+    lsl     x3, x3, #3
+    add     x2, x2, x3          // envp = argv + (argc+1) * 8
 
     bl      main                // 调用 main, 返回地址存入 lr (x30)
     

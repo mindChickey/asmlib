@@ -9,6 +9,11 @@ _start0:
     movq (%rsp), %rdi         # 第一个参数: argc (从栈顶读取)
     leaq 8(%rsp), %rsi        # 第二个参数: argv (指向 argv[0])
 
+    movq %rdi, %rcx
+    addq $1, %rcx
+    salq $3, %rcx
+    leaq (%rsi,%rcx), %rdx    # envp = argv + (argc+1) * 8
+
     # 栈对齐: call 前确保 rsp 是 16 字节对齐
     # 由于进入 _start 时 rsp 对齐，经过 push 等操作可能偏移
     # 这里简单处理：在调用前对齐
